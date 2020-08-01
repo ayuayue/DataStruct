@@ -1,10 +1,8 @@
 package main
 
 import (
-	// "DataStruct/binarysearch"
-	// "DataStruct/linesearch"
-	// "DataStruct/recursion"
-	"DataStruct/sort"
+	og "DataStruct/offer-Go"
+	"fmt"
 )
 
 func main() {
@@ -12,5 +10,9 @@ func main() {
 	// binarysearch.Search()
 	// recursion.Draw(5)
 	// recursion.Multiplication(9)
-	sort.Bubble()
+	// sort.Bubble()
+	fmt.Println("===")
+	nums := []int{2, 3, 1, 0, 2, 5, 3}
+	repeat := og.FindRepeatNumber(nums)
+	fmt.Println(repeat)
 }
