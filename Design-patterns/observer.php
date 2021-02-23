@@ -5,7 +5,7 @@
 观察者接口
 */
 
-interface ObserverInterface
+interface InterfaceObserver
 {
     function onListen($sender, $args);
     function getObserverName();
@@ -14,7 +14,7 @@ interface ObserverInterface
 /* 
 可被观察者接口
  */
-interface ObservableInterface
+interface InterfaceObservable
 {
     function addObserver($observer);
     function removeObserver($name);
@@ -23,7 +23,7 @@ interface ObservableInterface
 /* 
 观察者抽象类
  */
-abstract class Observer implements ObserverInterface
+abstract class Observer implements InterfaceObserver
 {
     protected $name;
     function getObserverName()
@@ -36,20 +36,20 @@ abstract class Observer implements ObserverInterface
 }
 
 // 可被观察类
-abstract class Observable implements ObservableInterface
+abstract class Observable implements InterfaceObservable
 {
-    protected $observer = array();
+    protected $observers = array();
     function addObserver($observer)
     {
-        if ($observer instanceof ObserverInterface) {
-            $this->observer[] = $observer;
+        if ($observer instanceof InterfaceObserver) {
+            $this->observers[] = $observer;
         }
     }
     function removeObserver($name)
     {
-        foreach ($this->observer as $index => $observer) {
-            if ($observer->getObserverName === $name) {
-                array_splice($this->observer, $index, 1);
+        foreach ($this->observers as $index => $observer) {
+            if ($observer->getObserverName() === $name) {
+                array_splice($this->observers, $index, 1);
                 return;
             }
         }
@@ -60,13 +60,13 @@ class A extends Observable
 {
     public function addListener($listener)
     {
-        foreach ($this->observer as $observer) {
+        foreach ($this->observers as $observer) {
             $observer->onListen($this, $listener);
         }
     }
 }
 // 模拟一个观察者类
-class B extends observer
+class B extends Observer
 {
     protected $name = 'B';
     public function onListen($sender, $args)
@@ -78,7 +78,7 @@ class B extends observer
     }
 }
 // 模拟另外一个观察者类
-class C extends observer
+class C extends Observer
 {
     protected $name = 'C';
     public function onListen($sender, $args)
